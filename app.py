@@ -29,6 +29,15 @@ def query():
     if not sql:
         return jsonify({"error": "請提供查詢參數 ?q=SQL 語句"}), 400
 
+    # 簡單限制：不允許動詞（防刪表、改表）
+    blocked = ["drop", "update", "delete", "insert", "alter"]
+    if any(word in sql.lower() for word in blocked):
+        return jsonify({"error": "不允許修改資料的 SQL"}), 400
+
+    # 限定只能查某一張表
+    if "from nj_asm_rawdata" not in sql.lower():
+        return jsonify({"error": "僅允許查詢 nj_asm_rawdata 資料表"}), 400
+
     try:
         data = query_postgres(sql)
         return jsonify({
@@ -38,6 +47,7 @@ def query():
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 @app.route("/")
 def home():
