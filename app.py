@@ -10,7 +10,7 @@ DB_CONFIG = {
     "dbname": os.getenv("DB_NAME"),
     "user": os.getenv("DB_USER"),
     "password": os.getenv("DB_PASS"),
-    "port": os.getenv("DB_PORT", 5432)
+    "port": os.getenv("DB_PORT", 5435)
 }
 
 def query_postgres(sql_query):
