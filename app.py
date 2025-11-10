@@ -34,8 +34,7 @@ def query():
     if any(word in sql.lower() for word in blocked):
         return jsonify({"error": "不允許修改資料的 SQL"}), 400
 
-    # 限定只能查某一張表
-    if "from nj_asm_rawdata" not in sql.lower():
+    if "nj_asm_rawdata" not in sql.lower():
         return jsonify({"error": "僅允許查詢 nj_asm_rawdata 資料表"}), 400
 
     try:
